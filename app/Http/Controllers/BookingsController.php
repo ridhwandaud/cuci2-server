@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Booking;
 
-class CardsController extends Controller
+class BookingsController extends Controller
 {	
 	public function index()
 	{

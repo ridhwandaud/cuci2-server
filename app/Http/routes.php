@@ -10,10 +10,10 @@
 |
 */
 
-Route::get('/', 'CardsController@show');
+Route::get('/', 'BookingsController@show');
 
-Route::get('/cards','CardsController@index');
+Route::get('/show/booking','BookingsController@index');
 
-Route::post('/cards/store','CardsController@store');
+Route::post('/create/booking','BookingsController@store');
 
-Route::get('/cards/delete','CardsController@delete');
+Route::get('/delete/booking','BookingsController@delete');

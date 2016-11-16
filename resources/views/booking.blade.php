@@ -8,7 +8,7 @@
 		</div>
 	@endforeach
 
-	<form method="POST" action="/cards/store">
+	<form method="POST" action="/create/booking">
 		{{ csrf_field() }}
 		<div class="form-group">
 			<textarea name="title" class="form-control"></textarea>
