@@ -27,9 +27,9 @@ class BookingsController extends Controller
     	$booking->title = $title;
     	$booking->save();
 
-    	return $booking;
+    	//return $booking;
 
-    	//return back();
+    	return back();
     }
 
     public function delete()
