@@ -12,8 +12,14 @@
 
 Route::get('/', 'BookingsController@show');
 
+Route::get('/edit/{token}','BookingsController@edit');
+
 Route::get('/show/booking','BookingsController@index');
 
 Route::post('/create/booking','BookingsController@store');
 
-Route::get('/delete/booking','BookingsController@delete');
+Route::post('/save/{id}','BookingsController@save');
+
+Route::get('/delete','BookingsController@delete');
+
+Route::get('/delete/{id}','BookingsController@deleteById');

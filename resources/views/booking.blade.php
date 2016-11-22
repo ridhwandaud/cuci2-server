@@ -1,22 +1,21 @@
 @extends('layout')
 
 @section('content')
-<h1>BOOKING</h1>
-	@foreach($bookings as $booking)
-		<div>
-			<a>{{$booking->title}}</a>
-		</div>
-	@endforeach
+<h1>Edit BOOKING</h1>
 
-	<form method="POST" action="/create/booking">
+	<form method="POST" action="/save/{{$booking->id}}">
 		{{ csrf_field() }}
 		<div class="form-group">
-			<textarea name="title" class="form-control"></textarea>
+			{{$booking->id}}
+		</div>
+		<div class="form-group">
+			<textarea name="title" class="form-control">{{$booking->title}}</textarea>
 		</div>
 
 		<div class="form-group">
-			<button type="submit" class="btn btn-primary">Add Booking</button>
+			<button type="submit" class="btn btn-primary">Save Booking</button>
 		</div>
 		
-	</form>	
+	</form>
+
 @stop
