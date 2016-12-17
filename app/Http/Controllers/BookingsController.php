@@ -12,21 +12,74 @@ class BookingsController extends Controller
 	public function index()
 	{
 		$bookings = Booking::all();
-		return $bookings;
+
+        $total = 0;
+        foreach ($bookings as $index => $value) {
+            $total += $value->amount;
+        }
+
+        foreach ($bookings as $index => $value) {
+            $bookings[$index]->total = $total;
+        }
+        return $bookings;
 	}
 
 	public function show()
 	{
 		$bookings = Booking::all();
+
+        $total = 0;
+        foreach ($bookings as $index => $value) {
+            $total += $value->amount;
+        }
+
+        foreach ($bookings as $index => $value) {
+            $bookings[$index]->total = $total;
+        }
+
+        $bookings->total = $total;
+
 		return view('bookings',compact('bookings'));
 	}
 	
 	public function store(Request $request)
     {
     	$booking = new Booking;
-    	$title = $request->input('title');
-    	$booking->title = $title;
+        $total = 0;
+    	// $title = $request->input('title');
+    	$booking->title = $request->input('title');
+        $booking->date_transaction = $request->input('date_transaction');
+        $booking->amount = $request->input('amount');
     	$booking->save();
+
+        $sameDate = Booking::where('date_transaction',$request->input('date_transaction'))->get();
+
+        //adding total amount in same date 
+        foreach ($sameDate as $index => $value) {
+            $total += $value->amount;
+        }
+
+        foreach ($sameDate as $index => $value) {
+            $sameDate[$index]->total_same_date = $total;
+            $sameDate[$index]->save();
+        }
+
+        //add all transactions amount
+        $bookings = Booking::all();
+        $totalAll = 0;
+        foreach ($bookings as $index => $value) {
+            $totalAll += $value->amount;
+        }
+
+        foreach ($bookings as $index => $value) {
+            $bookings[$index]->total_all = $totalAll;
+            $bookings[$index]->save();
+        }
+
+
+
+        // return $sameDate;
+
 
     	//return $booking;
 
