@@ -1,8 +1,7 @@
-@extends('layout')
+@extends('layouts.app')
 
 @section('content')
-<h1>BOOKING</h1>
-	
+<div class="container">
 	<div class="list-group">
 		@foreach($bookings as $booking)
 		<li class="list-group-item clearfix">
@@ -52,4 +51,5 @@
 		</div>
 		
 	</form>	
+</div>	
 @stop
