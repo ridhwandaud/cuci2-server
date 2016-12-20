@@ -28,26 +28,69 @@ class BookingsController extends Controller
         return $bookings;
 	}
 
-	public function show()
+	public function show(Request $request)
 	{
-		$bookings = Booking::all();
+		
 
-        $total = 0;
-        foreach ($bookings as $index => $value) {
-            $total += $value->amount;
-        }
+        $bookings = $request->user()->bookings()->get();
 
-        foreach ($bookings as $index => $value) {
-            $bookings[$index]->total = $total;
-        }
+        return view('bookings',compact('bookings'));
 
-        $bookings->total = $total;
+  //       $bookings = Booking::all();
 
-		return view('bookings',compact('bookings'));
+  //       $total = 0;
+  //       foreach ($bookings as $index => $value) {
+  //           $total += $value->amount;
+  //       }
+
+  //       foreach ($bookings as $index => $value) {
+  //           $bookings[$index]->total = $total;
+  //       }
+
+  //       $bookings->total = $total;
+
+		// return view('bookings',compact('bookings'));
 	}
 	
 	public function store(Request $request)
-    {
+    {   
+        //default
+        $total = 0;
+        
+        $request->user()->bookings()->create([
+            'title' => $request->title,
+            'amount' => $request->amount,
+            'date_transaction' => $request->date_transaction,
+        ]);
+
+        $sameDate =  $request->user()->getTotalSameDate($request);
+
+        foreach ($sameDate as $index => $value) {
+            $total += $value->amount;
+        }
+
+        foreach ($sameDate as $index => $value) {
+            $sameDate[$index]->total_same_date = $total;
+            $sameDate[$index]->save();
+        }
+
+
+        $totalAll = 0;
+
+        $bookings = $request->user()->bookings()->get();
+        foreach ($bookings as $index => $value) {
+            $totalAll += $value->amount;
+        }
+
+        foreach ($bookings as $index => $value) {
+            $bookings[$index]->total_all = $totalAll;
+            $bookings[$index]->save();
+        }
+
+        return back();
+        
+
+        //OLD API
     	$booking = new Booking;
         $total = 0;
     	// $title = $request->input('title');
@@ -79,13 +122,6 @@ class BookingsController extends Controller
             $bookings[$index]->total_all = $totalAll;
             $bookings[$index]->save();
         }
-
-
-
-        // return $sameDate;
-
-
-    	//return $booking;
 
     	return back();
     }

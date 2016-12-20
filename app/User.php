@@ -1,7 +1,8 @@
 <?php
 
 namespace App;
-
+use App\Booking;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -23,4 +24,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+     public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
+    public function getTotalSameDate(Request $request)
+    {
+        return Booking::where('date_transaction', $request->input('date_transaction'))
+               ->get();
+    }
 }

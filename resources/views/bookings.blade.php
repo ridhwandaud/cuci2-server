@@ -5,7 +5,7 @@
 	<div class="list-group">
 		@foreach($bookings as $booking)
 		<li class="list-group-item clearfix">
-				<p> {{$booking->id}} ) {{$booking->title}}</p>
+				<p>{{$booking->title}}</p>
 				<span class="pull-right">
 					<a href="/edit/{{$booking->id}}">
 						<button class="btn btn-xs btn-info">Edit</button>
@@ -21,7 +21,6 @@
 				<p>Total same date: {{$booking->total_same_date}}</p>
 		</li>
 		@endforeach
-		<li>Total All: {{$bookings->total}}</li>
 	</div>
 
 	<form method="POST" action="/create/booking">
