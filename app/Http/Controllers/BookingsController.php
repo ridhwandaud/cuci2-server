@@ -56,7 +56,7 @@ class BookingsController extends Controller
     {   
         //default
         $total = 0;
-        
+
         $request->user()->bookings()->create([
             'title' => $request->title,
             'amount' => $request->amount,
@@ -162,9 +162,10 @@ class BookingsController extends Controller
 
     public function edit($id)
     {
+        // $booking =  $request->user()->getTransactionById($id);
+        // return view('booking',compact('booking'));
+
     	$booking = Booking::find($id);
-    	//return $bookings;
     	return view('booking',compact('booking'));
-    	// return back();
     }
 }

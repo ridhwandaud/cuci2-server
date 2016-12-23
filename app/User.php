@@ -35,4 +35,11 @@ class User extends Authenticatable
         return Booking::where('date_transaction', $request->input('date_transaction'))
                ->get();
     }
+
+    public function getTransactionById(Request $request)
+    {
+        return $request;
+        return Booking::where('id', $type)
+               ->get();
+    }
 }
