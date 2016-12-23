@@ -31,7 +31,7 @@
 				<div class="row">
 					<div class="form-group">
 						<label for="">Amount</label>
-						<input type="number" class="form-control" name="amount">
+						<input type="text" class="form-control" name="amount">
 					</div>
 					<div class="form-group">
 						<label for="">Description</label>
@@ -90,8 +90,6 @@
 			</form>	
 		</div>
 	</div>
-
-	<?php echo $bookings->render(); ?>
 	
 </div>	
 @stop

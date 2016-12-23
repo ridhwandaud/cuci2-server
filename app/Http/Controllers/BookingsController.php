@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Booking;
 use View;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Controllers\Input;
 
 class BookingsController extends Controller
 {	
@@ -32,30 +34,20 @@ class BookingsController extends Controller
 	{
 		
 
-        $bookings = $request->user()->bookings()->get();
+        $bookings = $request->user()->bookings()->paginate(3);
 
         return view('bookings',compact('bookings'));
-
-  //       $bookings = Booking::all();
-
-  //       $total = 0;
-  //       foreach ($bookings as $index => $value) {
-  //           $total += $value->amount;
-  //       }
-
-  //       foreach ($bookings as $index => $value) {
-  //           $bookings[$index]->total = $total;
-  //       }
-
-  //       $bookings->total = $total;
-
-		// return view('bookings',compact('bookings'));
 	}
 	
 	public function store(Request $request)
     {   
         //default
         $total = 0;
+
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'amount' => 'required',
+        ]);
 
         $request->user()->bookings()->create([
             'title' => $request->title,
@@ -88,42 +80,6 @@ class BookingsController extends Controller
         }
 
         return back();
-        
-
-        //OLD API
-    	$booking = new Booking;
-        $total = 0;
-    	// $title = $request->input('title');
-    	$booking->title = $request->input('title');
-        $booking->date_transaction = $request->input('date_transaction');
-        $booking->amount = $request->input('amount');
-    	$booking->save();
-
-        $sameDate = Booking::where('date_transaction',$request->input('date_transaction'))->get();
-
-        //adding total amount in same date 
-        foreach ($sameDate as $index => $value) {
-            $total += $value->amount;
-        }
-
-        foreach ($sameDate as $index => $value) {
-            $sameDate[$index]->total_same_date = $total;
-            $sameDate[$index]->save();
-        }
-
-        //add all transactions amount
-        $bookings = Booking::all();
-        $totalAll = 0;
-        foreach ($bookings as $index => $value) {
-            $totalAll += $value->amount;
-        }
-
-        foreach ($bookings as $index => $value) {
-            $bookings[$index]->total_all = $totalAll;
-            $bookings[$index]->save();
-        }
-
-    	return back();
     }
 
     public function save(Request $request, $id)
@@ -136,8 +92,6 @@ class BookingsController extends Controller
 
     	$bookings = Booking::all();
 
-    	// return view('bookings',compact('bookings'));
-    	// return back();
     	return Redirect::to('/');
     }
 
@@ -154,18 +108,32 @@ class BookingsController extends Controller
 
     	$bookings = Booking::all();
 
-    	// return view('bookings',compact('bookings'));
-
     	return Redirect::to('/');
     }
 
 
     public function edit($id)
     {
-        // $booking =  $request->user()->getTransactionById($id);
-        // return view('booking',compact('booking'));
-
     	$booking = Booking::find($id);
     	return view('booking',compact('booking'));
+    }
+
+
+    public function query(Request $request)
+    {
+        $bookings = Booking::all()->where('title',$request->input('title'));
+
+        if($request->has('date_transaction')) {
+            $bookings =  Booking::all()->where('date_transaction', $request->input('date_transaction') );
+        }
+
+        return $bookings;
+
+        return view('query',compact('bookings'));
+
+        $query->where('title', Input::get('title'));
+        
+
+        return $request->input();
     }
 }
