@@ -8,6 +8,7 @@ use View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Controllers\Input;
+use App\Repositories\TransactionRepository;
 
 class BookingsController extends Controller
 {	
@@ -126,7 +127,10 @@ class BookingsController extends Controller
         if($request->has('date_transaction')) {
             $bookings =  Booking::all()->where('date_transaction', $request->input('date_transaction') );
         }
-
+        if($request->has('amount')) {
+            $bookings =  Booking::all()->where('amount', $request->input('amount') );
+        }
+        return view('query',compact('bookings'));
         return $bookings;
 
         return view('query',compact('bookings'));
