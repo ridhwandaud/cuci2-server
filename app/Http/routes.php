@@ -22,7 +22,7 @@ Route::post('/save/{id}','BookingsController@save');
 
 Route::get('/delete','BookingsController@delete');
 
-Route::delete('/delete/{id}','BookingsController@deleteById');
+Route::delete('/delete/{booking}','BookingsController@deleteById');
 
 Route::auth();
 
