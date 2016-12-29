@@ -126,9 +126,13 @@ class BookingsController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit(Request $request,Booking $booking)
     {
-    	$booking = Booking::find($id);
+    	
+        $this->authorize('edit', $booking);
+
+        $booking = Booking::find($booking->id);
+
     	return view('booking',compact('booking'));
     }
 

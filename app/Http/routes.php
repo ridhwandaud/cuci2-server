@@ -12,7 +12,7 @@
 
 Route::get('/', 'BookingsController@show');
 
-Route::get('/edit/{id}','BookingsController@edit');
+Route::get('/edit/{booking}','BookingsController@edit');
 
 Route::get('/show/booking','BookingsController@index');
 

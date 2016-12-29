@@ -24,4 +24,9 @@ class TransactionPolicy
     {
          return $user->id === $booking->user_id;
     }
+
+    public function edit(User $user, Booking $booking)
+    {
+        return $user->id === $booking->user_id;
+    }
 }

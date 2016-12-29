@@ -22,7 +22,7 @@
 								{{ csrf_field() }}
 								{{ method_field('DELETE') }}
 								<button type="submit" id="delete-booking-{{ $booking->id }}" class="btn btn-danger">
-					                <i class="fa fa-btn fa-trash"></i>Delete
+					                <i class="fa fa-trash"></i>
 					            </button>
 							</form>
 						</span>
@@ -33,7 +33,7 @@
 				@endforeach
 			</div>
 		</div>
-		<div class="col col-md-6">
+		<!-- <div class="col col-md-6 ">
 			<form method="GET" action="/query/booking">
 				<div class="row">
 					<div class="col-md-12">
@@ -60,7 +60,7 @@
 				</div>
 				
 			</form>
-		</div>
+		</div> -->
 	</div>
 	@endif
 
