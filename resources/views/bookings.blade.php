@@ -13,11 +13,18 @@
 							<a href="/edit/{{$booking->id}}">
 								<button class="btn btn-xs btn-info">Edit</button>
 							</a>
-							<a href="/delete/{{$booking->id}}">
+							<!-- <a href="/delete/{{$booking->id}}">
 								<button class="btn btn-xs btn-warning">
 							  		<span class="glyphicon glyphicon-trash"></span>
 								</button>
-							</a>
+							</a> -->
+							<form action="{{'delete/'.$booking->id}}" method="POST">
+								{{ csrf_field() }}
+								{{ method_field('DELETE') }}
+								<button type="submit" id="delete-booking-{{ $booking->id }}" class="btn btn-danger">
+					                <i class="fa fa-btn fa-trash"></i>Delete
+					            </button>
+							</form>
 						</span>
 						<p>Amount: {{$booking->amount}}</p>
 						<p>Date: {{$booking->date_transaction}}</p>
@@ -29,22 +36,26 @@
 		<div class="col col-md-6">
 			<form method="GET" action="/query/booking">
 				<div class="row">
-					<div class="form-group">
-						<label for="">Amount</label>
-						<input type="number" class="form-control" name="amount">
-					</div>
-					<div class="form-group">
-						<label for="">Description</label>
-						<input type="text" class="form-control" name="title">
-					</div>
-					<div class="form-group">
-						<label for="">Date</label>
-						<input type="date" class="form-control" name="date_transaction">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="">Amount</label>
+							<input type="number" class="form-control" name="amount">
+						</div>
+						<div class="form-group">
+							<label for="">Description</label>
+							<input type="text" class="form-control" name="title">
+						</div>
+						<div class="form-group">
+							<label for="">Date</label>
+							<input type="date" class="form-control" name="date_transaction">
+						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="form-group">
-						<button type="submit" class="btn btn-primary">Search</button>
+					<div class="col-md-12">
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary">Search</button>
+						</div>
 					</div>
 				</div>
 				
@@ -90,8 +101,6 @@
 			</form>	
 		</div>
 	</div>
-
-	<?php echo $bookings->render(); ?>
 	
 </div>	
 @stop
