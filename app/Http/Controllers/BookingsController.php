@@ -8,13 +8,19 @@ use View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Controllers\Input;
+use App\Repositories\TransactionRepository;
 
 class BookingsController extends Controller
 {	
-    public function __construct()
+    protected $bookings;
+
+    public function __construct(TransactionRepository $bookings)
     {
         $this->middleware('auth');
+
+        $this->bookings = $bookings;
     }
+
 	public function index()
 	{
 		$bookings = Booking::all();
@@ -32,11 +38,13 @@ class BookingsController extends Controller
 
 	public function show(Request $request)
 	{
-		
+		return view('bookings', [
+            'bookings' => $this->bookings->forUser($request->user()),
+        ]);
 
-        $bookings = $request->user()->bookings()->paginate(3);
+        // $bookings = $request->user()->bookings()->paginate(3);
 
-        return view('bookings',compact('bookings'));
+        // return view('bookings',compact('bookings'));
 	}
 	
 	public function store(Request $request)
@@ -100,8 +108,14 @@ class BookingsController extends Controller
     	Booking::truncate();
     }
 
-      public function deleteById($id)
+      public function deleteById(Request $request,Booking $booking)
     {
+        $this->authorize('destroy', $booking);
+
+        $booking->delete();
+
+        return Redirect::to('/');
+
     	$booking = Booking::find($id);
 
     	$booking->delete();
